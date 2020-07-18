@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin") //html文件打包出�
 const WebpackDeepScopePlugin = require("webpack-deep-scope-plugin").default //去除多余没有用到的js函数
 const MiniCssExtractPlugin = require("mini-css-extract-plugin") //单独抽离css
 const PurgecssPlugin = require('purgecss-webpack-plugin') //去除掉css中没有被使用的样式
-const Webpack =require("webpack")
+const Webpack = require("webpack")
 
 const {
     CleanWebpackPlugin
@@ -16,7 +16,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name][hash:5].js",
+        filename: "js/[name][hash:5].js",
         // chunkFilename:"[name][hash:5].js"
     },
     //多入口提取公共js配置
@@ -43,6 +43,12 @@ module.exports = {
     mode: "development",
     module: {
         rules: [{
+                test: /\.js$/,
+                use: [{
+                    loader:"babel-loader"
+                }],
+                exclude: "/node_modules/"
+            }, {
                 test: /\.css$/,
                 use: [{
                         loader: MiniCssExtractPlugin.loader
@@ -120,7 +126,7 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
-            filename: "[name][hash:5].css"
+            filename: "css/[name][hash:5].css"
         }),
         new PurgecssPlugin({
             paths: glob.sync([path.join(__dirname, `./*html`), path.join(__dirname, `./src/*js`)])
@@ -128,11 +134,11 @@ module.exports = {
         new WebpackDeepScopePlugin(),
         new Webpack.HotModuleReplacementPlugin() //热更新
     ],
-    devServer:{
+    devServer: {
         // port: '8080',
-        contentBase:'dist',
+        contentBase: 'dist',
+        hot: true,
         //错误提示显示在页面上
         overlay: true,
-        hot: true
     }
 }

@@ -44,3 +44,10 @@ webpack
         module.hot.accept()
     }
     ~~~
+    * 注意：css单独抽离出来 不支持热更新
+
+
+**注意:**npm install 下载安装模块后可能会缺少
+~~~
+npm install imagemin imagemin-mozjpeg imagemin-pngquant
+~~~
